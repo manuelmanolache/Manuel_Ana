@@ -15,6 +15,8 @@
     --light-color: #ecf0f1;
     --text-color: #333;
     --failed-splash-overlay: 0.82;
+    --phone-photo-width: min(100vw, 430px);
+    --phone-photo-height: min(100vh, 860px);
     --border-radius: 10px;
     --transition: all 0.3s ease;
 }
@@ -67,18 +69,20 @@ body {
 
 .splash-content {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: var(--phone-photo-width);
+    height: var(--phone-photo-height);
+    max-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .splash-image {
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     z-index: 1;
 }
 
@@ -161,8 +165,10 @@ body {
     grid-template-columns: 1fr;
     gap: 0;
     align-items: center;
-    width: 100%;
-    height: 100vh;
+    width: var(--phone-photo-width);
+    height: var(--phone-photo-height);
+    max-height: 100vh;
+    margin: 0 auto;
 }
 
 .invitation-image {
@@ -171,7 +177,7 @@ body {
     border-radius: 0;
     box-shadow: none;
     transition: var(--transition);
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .invitation-image:hover {
@@ -197,8 +203,10 @@ body {
     grid-template-columns: 1fr;
     gap: 0;
     align-items: center;
-    width: 100%;
-    height: 100vh;
+    width: var(--phone-photo-width);
+    height: var(--phone-photo-height);
+    max-height: 100vh;
+    margin: 0 auto;
 }
 
 .couple-image {
@@ -207,7 +215,7 @@ body {
     border-radius: 0;
     box-shadow: none;
     transition: var(--transition);
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .couple-image:hover {
@@ -244,14 +252,18 @@ body {
     overflow: hidden;
     border-radius: var(--border-radius);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    height: 300px;
+    aspect-ratio: 9 / 16;
+    height: auto;
+    max-width: 430px;
+    margin: 0 auto;
+    background: white;
     transition: var(--transition);
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: var(--transition);
 }
 
@@ -404,17 +416,20 @@ body {
 
 .footer {
     position: relative;
-    height: 400px;
+    height: min(70vh, 860px);
     overflow: hidden;
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    padding: 0 1rem;
 }
 
 .footer-image {
     position: absolute;
-    width: 100%;
+    width: min(100%, 430px);
     height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
     object-fit: cover;
     z-index: 1;
 }
@@ -447,16 +462,8 @@ body {
         min-height: 100vh;
     }
 
-    .invitation-content {
-        height: 100vh;
-    }
-
     .about {
         min-height: 100vh;
-    }
-
-    .about-content {
-        height: 100vh;
     }
 
     h2 {
@@ -467,12 +474,8 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .gallery-item {
-        height: 250px;
-    }
-
     .footer {
-        height: 300px;
+        height: min(60vh, 520px);
     }
 }
 
@@ -498,26 +501,9 @@ body {
         padding: 0;
     }
 
-    .invitation-content {
-        height: 100vh;
-        gap: 0;
-    }
-
-    .invitation-image {
-        height: 100vh;
-    }
-
     .about {
         min-height: 100vh;
         padding: 0;
-    }
-
-    .about-content {
-        height: 100vh;
-    }
-
-    .couple-image {
-        height: 100vh;
     }
 
     h2 {
@@ -529,12 +515,8 @@ body {
         padding: 1.5rem;
     }
 
-    .gallery-item {
-        height: 200px;
-    }
-
     .footer {
-        height: 250px;
+        height: min(55vh, 420px);
     }
 }
 
@@ -547,14 +529,9 @@ body {
         height: 100vh;
     }
 
+    .splash-content,
     .invitation-content,
     .about-content {
-        height: auto;
-        min-height: 100vh;
-    }
-
-    .invitation-image,
-    .couple-image {
-        height: 100vh;
+        height: min(100vh, 600px);
     }
 }
