@@ -1,45 +1,74 @@
 // ============================================
+// Splash Screen / Opening Page Handler
+// ============================================
+
+function enterWebsite() {
+    const splashScreen = document.getElementById('splashScreen');
+    const mainContent = document.getElementById('mainContent');
+    
+    // Add animation classes
+    splashScreen.classList.add('hidden');
+    mainContent.classList.remove('hidden');
+    
+    // Optionally scroll to top
+    window.scrollTo(0, 0);
+}
+
+// Allow Enter key to proceed from splash screen
+document.addEventListener('keydown', function(event) {
+    const splashScreen = document.getElementById('splashScreen');
+    if (splashScreen && splashScreen.classList.contains('active')) {
+        if (event.key === 'Enter') {
+            enterWebsite();
+        }
+    }
+});
+
+// ============================================
 // RSVP Form Handling
 // ============================================
 
-document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if form exists before adding listener
+    const rsvpForm = document.getElementById('rsvpForm');
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    // Get form data
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        attending: document.getElementById('attending').value,
-        guests: document.getElementById('guests').value,
-        dietary: document.getElementById('dietary').value,
-        message: document.getElementById('message').value
-    };
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                attending: document.getElementById('attending').value,
+                guests: document.getElementById('guests').value,
+                dietary: document.getElementById('dietary').value,
+                message: document.getElementById('message').value
+            };
 
-    // Validate form
-    if (!formData.name || !formData.email || !formData.attending || !formData.guests) {
-        showFormMessage('Please fill in all required fields.', 'error');
-        return;
+            // Validate form
+            if (!formData.name || !formData.email || !formData.attending || !formData.guests) {
+                showFormMessage('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            // Store data in localStorage (for demo purposes)
+            const responses = JSON.parse(localStorage.getItem('rsvpResponses')) || [];
+            responses.push({
+                ...formData,
+                timestamp: new Date().toLocaleString()
+            });
+            localStorage.setItem('rsvpResponses', JSON.stringify(responses));
+
+            // Show success message
+            showFormMessage('Thank you for your RSVP! We look forward to celebrating with you! 🎉', 'success');
+
+            // Reset form
+            document.getElementById('rsvpForm').reset();
+
+            console.log('RSVP Response:', formData);
+        });
     }
-
-    // Store data in localStorage (for demo purposes)
-    const responses = JSON.parse(localStorage.getItem('rsvpResponses')) || [];
-    responses.push({
-        ...formData,
-        timestamp: new Date().toLocaleString()
-    });
-    localStorage.setItem('rsvpResponses', JSON.stringify(responses));
-
-    // Show success message
-    showFormMessage('Thank you for your RSVP! We look forward to celebrating with you! 🎉', 'success');
-
-    // Reset form
-    document.getElementById('rsvpForm').reset();
-
-    // Optional: Send email (requires backend)
-    // sendEmailNotification(formData);
-
-    console.log('RSVP Response:', formData);
 });
 
 // Function to display form messages
@@ -77,12 +106,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Update these with your actual wedding details
-    document.getElementById('wedding-date').textContent = 'Saturday, July 4, 2026';
-    document.getElementById('wedding-time').textContent = '6:00 PM';
-    document.getElementById('wedding-location').textContent = 'Beautiful Venue, Romania';
-
-    // You can also update contact info
-    // document.querySelector('.contact-info a').href = 'mailto:your-email@example.com';
+    const dateElement = document.getElementById('wedding-date');
+    const timeElement = document.getElementById('wedding-time');
+    const locationElement = document.getElementById('wedding-location');
+    
+    if (dateElement) dateElement.textContent = 'Saturday, July 4, 2026';
+    if (timeElement) timeElement.textContent = '6:00 PM';
+    if (locationElement) locationElement.textContent = 'Beautiful Venue, Romania';
 });
 
 // ============================================
@@ -121,12 +151,17 @@ const observer = new IntersectionObserver(function(entries) {
     });
 }, observerOptions);
 
-// Add fade-in animation to sections
-document.querySelectorAll('section').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(section);
+// Add fade-in animation to sections (after splash screen)
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.getElementById('mainContent');
+    if (mainContent) {
+        mainContent.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    }
 });
 
 // ============================================
@@ -143,13 +178,17 @@ function printRSVPResponses() {
 // Access in browser console with: printRSVPResponses()
 
 // ============================================
-// Theme Customization
+// Theme Customization Functions
 // ============================================
 
 function setWeddingDate(date, time, location) {
-    document.getElementById('wedding-date').textContent = date;
-    document.getElementById('wedding-time').textContent = time;
-    document.getElementById('wedding-location').textContent = location;
+    const dateElement = document.getElementById('wedding-date');
+    const timeElement = document.getElementById('wedding-time');
+    const locationElement = document.getElementById('wedding-location');
+    
+    if (dateElement) dateElement.textContent = date;
+    if (timeElement) timeElement.textContent = time;
+    if (locationElement) locationElement.textContent = location;
 }
 
 function setContactInfo(email, phone) {
@@ -158,15 +197,6 @@ function setContactInfo(email, phone) {
     
     if (emailLink) emailLink.href = `mailto:${email}`;
     if (phoneLink) phoneLink.href = `tel:${phone}`;
-}
-
-// ============================================
-// Mobile Menu Toggle (Optional)
-// ============================================
-
-function toggleMobileMenu() {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.classList.toggle('active');
 }
 
 // ============================================
