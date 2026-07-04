@@ -14,7 +14,7 @@
     --dark-color: #2c3e50;
     --light-color: #ecf0f1;
     --text-color: #333;
-    --failed-splash-overlay: 0.82;
+    --failed-splash-overlay-opacity: 0.82;
     --phone-photo-width: min(100vw, 430px);
     --phone-photo-height: min(100vh, 860px);
     --border-radius: 10px;
@@ -102,7 +102,7 @@ body {
 }
 
 .splash-screen.image-failed .splash-overlay {
-    background: rgba(255, 255, 255, var(--failed-splash-overlay));
+    background: rgba(255, 255, 255, var(--failed-splash-overlay-opacity));
     max-width: min(90vw, 480px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
@@ -254,7 +254,7 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     aspect-ratio: 9 / 16;
     height: auto;
-    max-width: 430px;
+    max-width: var(--phone-photo-width);
     margin: 0 auto;
     background: white;
     transition: var(--transition);
@@ -426,7 +426,7 @@ body {
 
 .footer-image {
     position: absolute;
-    width: min(100%, 430px);
+    width: var(--phone-photo-width);
     height: 100%;
     left: 50%;
     transform: translateX(-50%);
