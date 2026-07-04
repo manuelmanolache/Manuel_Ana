@@ -2,6 +2,10 @@
 // Splash Screen / Opening Page Handler
 // ============================================
 
+function isInViewport(sectionRect) {
+    return sectionRect.top < window.innerHeight && sectionRect.bottom > 0;
+}
+
 function enterWebsite() {
     const splashScreen = document.getElementById('splashScreen');
     const mainContent = document.getElementById('mainContent');
@@ -12,6 +16,19 @@ function enterWebsite() {
     
     // Optionally scroll to top
     window.scrollTo(0, 0);
+
+    // IntersectionObserver does not re-fire for elements whose parent transitions
+    // from display:none to visible, so manually reveal any sections that are
+    // already in the viewport after the splash screen is dismissed.
+    requestAnimationFrame(function() {
+        mainContent.querySelectorAll('section').forEach(function(section) {
+            var sectionRect = section.getBoundingClientRect();
+            if (isInViewport(sectionRect)) {
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+            }
+        });
+    });
 }
 
 // Allow Enter key to proceed from splash screen
