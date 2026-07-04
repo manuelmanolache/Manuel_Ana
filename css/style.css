@@ -17,6 +17,8 @@
     --failed-splash-overlay-opacity: 0.8;
     --phone-photo-width: min(100vw, 430px);
     --phone-photo-height: min(100vh, 860px);
+    --phone-photo-landscape-height: min(100vh, 600px);
+    --gallery-photo-ratio: 2 / 3;
     --border-radius: 10px;
     --transition: all 0.3s ease;
 }
@@ -252,7 +254,7 @@ body {
     overflow: hidden;
     border-radius: var(--border-radius);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    aspect-ratio: 2 / 3; /* Match the 1024x1536-style portrait source photos */
+    aspect-ratio: var(--gallery-photo-ratio);
     max-width: var(--phone-photo-width);
     margin: 0 auto;
     background: white;
@@ -531,6 +533,6 @@ body {
     .splash-content,
     .invitation-content,
     .about-content {
-        height: min(100vh, 600px);
+        height: var(--phone-photo-landscape-height);
     }
 }
