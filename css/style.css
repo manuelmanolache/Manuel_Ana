@@ -252,7 +252,7 @@ body {
     overflow: hidden;
     border-radius: var(--border-radius);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    aspect-ratio: 2 / 3;
+    aspect-ratio: 2 / 3; /* Match the portrait source photos */
     max-width: var(--phone-photo-width);
     margin: 0 auto;
     background: white;
