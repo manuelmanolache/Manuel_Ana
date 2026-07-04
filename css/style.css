@@ -27,6 +27,10 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: #fff;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .container {
@@ -36,7 +40,7 @@ body {
 }
 
 /* ============================================
-   Splash Screen (Opening Page)
+   Splash Screen (Opening Page) - Mobile First
    ============================================ */
 
 .splash-screen {
@@ -44,7 +48,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     z-index: 2000;
     background: black;
     display: flex;
@@ -52,6 +56,7 @@ body {
     justify-content: center;
     opacity: 1;
     transition: opacity 0.5s ease;
+    cursor: pointer;
 }
 
 .splash-screen.hidden {
@@ -80,10 +85,10 @@ body {
     position: relative;
     z-index: 2;
     text-align: center;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 4rem 3rem;
-    border-radius: var(--border-radius);
-    backdrop-filter: blur(5px);
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    backdrop-filter: none;
     animation: fadeInUp 1s ease-out;
 }
 
@@ -98,42 +103,12 @@ body {
     }
 }
 
-.splash-overlay h1 {
-    font-size: 4rem;
-    color: white;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
 .splash-overlay p {
-    font-size: 1.5rem;
-    color: var(--secondary-color);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    margin-bottom: 2rem;
-}
-
-.btn-enter {
-    padding: 1rem 3rem;
-    background: linear-gradient(135deg, var(--primary-color), #a01428);
-    color: white;
-    border: none;
-    border-radius: 5px;
     font-size: 1.2rem;
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    margin: 0;
     font-weight: bold;
-    cursor: pointer;
-    transition: var(--transition);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 5px 15px rgba(196, 30, 58, 0.4);
-}
-
-.btn-enter:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(196, 30, 58, 0.6);
-}
-
-.btn-enter:active {
-    transform: translateY(-1px);
 }
 
 /* ============================================
@@ -143,67 +118,134 @@ body {
 .main-content {
     opacity: 1;
     transition: opacity 0.5s ease;
+    width: 100%;
 }
 
 .main-content.hidden {
     opacity: 0;
     pointer-events: none;
+    display: none;
 }
 
 /* ============================================
-   Invitation Section
+   Invitation Section - Full Screen Mobile
    ============================================ */
 
 .invitation {
+    padding: 0;
+    background: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invitation-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.invitation-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    transition: var(--transition);
+    object-fit: cover;
+}
+
+.invitation-image:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* ============================================
+   About Us Section - Full Screen Photo
+   ============================================ */
+
+.about {
+    padding: 0;
+    background: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.couple-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    transition: var(--transition);
+    object-fit: cover;
+}
+
+.couple-image:hover {
+    transform: none;
+}
+
+.about-text {
+    display: none;
+}
+
+/* ============================================
+   Gallery Section
+   ============================================ */
+
+.gallery {
     padding: 60px 0;
     background: linear-gradient(135deg, #fff5f7, #fff);
 }
 
-.invitation h2 {
+.gallery h2 {
     text-align: center;
     font-size: 2.5rem;
     color: var(--primary-color);
     margin-bottom: 3rem;
 }
 
-.invitation-content {
+.gallery-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
-.invitation-image {
-    width: 100%;
+.gallery-item {
+    overflow: hidden;
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: 300px;
     transition: var(--transition);
 }
 
-.invitation-image:hover {
-    transform: scale(1.02);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
 }
 
-.invitation-details h3 {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-.invitation-details p {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-}
-
-.invitation-message {
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--primary-color);
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid var(--secondary-color);
+.gallery-item:hover img {
+    transform: scale(1.1);
 }
 
 /* ============================================
@@ -310,99 +352,6 @@ body {
 }
 
 /* ============================================
-   About Us Section
-   ============================================ */
-
-.about {
-    padding: 60px 0;
-    background: white;
-}
-
-.about h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 3rem;
-}
-
-.about-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
-}
-
-.couple-image {
-    width: 100%;
-    border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    transition: var(--transition);
-}
-
-.couple-image:hover {
-    transform: scale(1.02);
-}
-
-.about-text h3 {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-}
-
-.about-text p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
-    color: var(--text-color);
-}
-
-/* ============================================
-   Gallery Section
-   ============================================ */
-
-.gallery {
-    padding: 60px 0;
-    background: linear-gradient(135deg, #fff5f7, #fff);
-}
-
-.gallery h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 3rem;
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.gallery-item {
-    overflow: hidden;
-    border-radius: var(--border-radius);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    height: 300px;
-    transition: var(--transition);
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: var(--transition);
-}
-
-.gallery-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.gallery-item:hover img {
-    transform: scale(1.1);
-}
-
-/* ============================================
    Contact Section
    ============================================ */
 
@@ -466,21 +415,32 @@ body {
 }
 
 /* ============================================
-   Responsive Design
+   Mobile Optimization (Vertical/Portrait)
    ============================================ */
 
 @media (max-width: 768px) {
-    .splash-overlay h1 {
-        font-size: 2.5rem;
+    body {
+        font-size: 16px;
     }
 
     .splash-overlay p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
-    .invitation-content,
+    .invitation {
+        min-height: 100vh;
+    }
+
+    .invitation-content {
+        height: 100vh;
+    }
+
+    .about {
+        min-height: 100vh;
+    }
+
     .about-content {
-        grid-template-columns: 1fr;
+        height: 100vh;
     }
 
     h2 {
@@ -491,34 +451,94 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .gallery-item {
+        height: 250px;
+    }
+
     .footer {
         height: 300px;
     }
 }
 
 @media (max-width: 480px) {
-    .splash-overlay h1 {
-        font-size: 1.8rem;
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .splash-screen {
+        height: 100vh;
     }
 
     .splash-overlay p {
         font-size: 1rem;
+        padding: 1rem;
     }
 
-    .splash-overlay {
-        padding: 2rem 1.5rem;
+    .invitation {
+        min-height: 100vh;
+        padding: 0;
     }
 
-    .btn-enter {
-        padding: 0.75rem 2rem;
-        font-size: 1rem;
+    .invitation-content {
+        height: 100vh;
+        gap: 0;
+    }
+
+    .invitation-image {
+        height: 100vh;
+    }
+
+    .about {
+        min-height: 100vh;
+        padding: 0;
+    }
+
+    .about-content {
+        height: 100vh;
+    }
+
+    .couple-image {
+        height: 100vh;
     }
 
     h2 {
         font-size: 1.5rem !important;
+        padding: 0 1rem;
     }
 
     .rsvp-form {
         padding: 1.5rem;
+    }
+
+    .gallery-item {
+        height: 200px;
+    }
+
+    .footer {
+        height: 250px;
+    }
+}
+
+/* ============================================
+   Landscape Mode (Mobile)
+   ============================================ */
+
+@media (max-height: 600px) {
+    .splash-screen {
+        height: 100vh;
+    }
+
+    .invitation-content,
+    .about-content {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .invitation-image,
+    .couple-image {
+        height: 100vh;
     }
 }
