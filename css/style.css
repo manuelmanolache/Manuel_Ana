@@ -265,6 +265,10 @@ body {
     transition: var(--transition);
 }
 
+.gallery-item-transparent {
+    background: transparent;
+}
+
 .gallery-item img {
     width: 100%;
     height: 100%;
@@ -385,37 +389,6 @@ body {
 }
 
 /* ============================================
-   Contact Section
-   ============================================ */
-
-.contact {
-    padding: 60px 0;
-    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
-    text-align: center;
-    color: white;
-}
-
-.contact h2 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: var(--secondary-color);
-}
-
-.contact-info {
-    font-size: 1.2rem;
-}
-
-.contact-info a {
-    color: var(--secondary-color);
-    text-decoration: none;
-    transition: var(--transition);
-}
-
-.contact-info a:hover {
-    text-decoration: underline;
-}
-
-/* ============================================
    Footer
    ============================================ */
 
@@ -442,12 +415,33 @@ body {
 .footer-content {
     position: relative;
     z-index: 2;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(248, 241, 231, 0.92);
     width: 100%;
     padding: 2rem;
     text-align: center;
-    color: white;
+    color: var(--dark-color);
     font-weight: bold;
+    box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.footer-content h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.footer .contact-info {
+    font-size: 1.1rem;
+}
+
+.footer .contact-info a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer .contact-info a:hover {
+    text-decoration: underline;
 }
 
 /* ============================================
@@ -481,6 +475,10 @@ body {
 
     .footer {
         height: min(60vh, 520px);
+    }
+
+    .footer-content h2 {
+        font-size: 1.5rem;
     }
 }
 
