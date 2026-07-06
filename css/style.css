@@ -468,14 +468,6 @@ body {
         min-height: 100vh;
     }
 
-    .invitation-image {
-        height: 100vh;
-    }
-
-    .invitation-qr {
-        display: none;
-    }
-
     .about {
         min-height: 100vh;
     }
