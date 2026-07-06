@@ -107,6 +107,7 @@ body {
     border-radius: var(--border-radius);
     backdrop-filter: blur(3px);
     animation: fadeInUp 1s ease-out;
+    margin-bottom: 8rem;
 }
 
 .splash-screen.image-failed .splash-overlay {
@@ -465,6 +466,14 @@ body {
 
     .invitation {
         min-height: 100vh;
+    }
+
+    .invitation-image {
+        height: 100vh;
+    }
+
+    .invitation-qr {
+        display: none;
     }
 
     .about {
