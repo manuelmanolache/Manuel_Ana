@@ -12,7 +12,9 @@ function initializeSplashScreen() {
     const mainContent = document.getElementById('mainContent');
     const fallbackImages = ['images/invitation.jpg', 'images/couple.jpg'];
     let fallbackIndex = 0;
-    const shouldOpenMainPage = new URLSearchParams(window.location.search).get('view') === 'main';
+    const currentView = new URLSearchParams(window.location.search).get('view');
+    const shouldOpenMainPage = currentView === 'main';
+    const shouldOpenIntroPage = currentView === 'intro';
 
     if (!mainContent) {
         return;
@@ -29,6 +31,10 @@ function initializeSplashScreen() {
 
     if (!splashScreen || !splashImage) {
         return;
+    }
+
+    if (shouldOpenIntroPage) {
+        window.scrollTo(0, 0);
     }
 
     splashScreen.classList.add('active');
