@@ -338,8 +338,25 @@ body {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
 }
 
-/* Desktop landscape fit for Intro, Main, Invitation sections */
-@media (min-width: 1024px) and (orientation: landscape) {
+/* Desktop-only fit: show full image and fill side space with themed background */
+@media (min-width: 1024px) {
+    .splash-screen,
+    .main-page,
+    .invitation-page {
+        background-color: #111;
+        background-image: url('../images/photo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .splash-photo,
+    .main-photo,
+    .invitation-full-image {
+        object-fit: contain;
+        object-position: center;
+    }
+
     .main-menu {
         bottom: clamp(0.5rem, 2vh, 1rem);
         row-gap: 0.35rem;
@@ -356,10 +373,6 @@ body {
     .enter-text {
         font-size: clamp(0.95rem, 1.5vw, 1.15rem);
         margin-bottom: 0.5rem;
-    }
-
-    .invitation-back {
-        bottom: clamp(0.5rem, 1.8vh, 0.9rem);
     }
 }
 
@@ -380,14 +393,7 @@ body {
         font-size: 0.8rem;
     }
 
-    .back-home {
-        max-width: var(--main-menu-mobile-btn-max-width);
-        padding: 0.45rem 0.55rem;
-        min-height: 34px;
-        font-size: 0.8rem;
-    }
-
-    /* Mobile-only invitation adaption to better fit one screen */
+    /* Mobile invitation only: slightly larger image while preserving one-screen fit */
     .invitation-page {
         min-height: 100vh;
         align-items: center;
@@ -397,16 +403,16 @@ body {
         width: 100%;
         height: 100vh;
         object-fit: contain;
-        object-position: center top;
+        object-position: center;
+        transform: scale(1.05);
+        transform-origin: center center;
     }
 
+    /* Keep button style/size as main (menu-button style), only positioning remains fixed */
     .invitation-back {
         bottom: max(0.45rem, env(safe-area-inset-bottom));
-        width: min(45vw, 180px);
-        max-width: 180px;
-        padding: 0.4rem 0.55rem;
-        min-height: 32px;
-        font-size: 0.78rem;
+        width: auto;
+        max-width: 250px;
     }
 
     @supports (height: 100svh) {
@@ -424,10 +430,5 @@ body {
     .menu-button {
         min-width: 100%;
         max-width: none;
-    }
-
-    .invitation-back {
-        width: min(56vw, 170px);
-        font-size: 0.75rem;
     }
 }
