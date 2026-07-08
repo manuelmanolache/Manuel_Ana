@@ -14,7 +14,6 @@ function initializeSplashScreen() {
     let fallbackIndex = 0;
     const currentView = new URLSearchParams(window.location.search).get('view');
     const shouldOpenMainPage = currentView === 'main';
-    const shouldOpenIntroPage = currentView === 'intro';
 
     if (!mainContent) {
         return;
@@ -31,10 +30,6 @@ function initializeSplashScreen() {
 
     if (!splashScreen || !splashImage) {
         return;
-    }
-
-    if (shouldOpenIntroPage) {
-        window.scrollTo(0, 0);
     }
 
     splashScreen.classList.add('active');
