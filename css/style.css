@@ -343,7 +343,7 @@ body {
     .splash-screen,
     .main-page,
     .invitation-page {
-        background-color: #111;
+        background-color: #f3e8d8;
         background-image: url('../images/photo.png');
         background-size: cover;
         background-position: center;
@@ -408,9 +408,9 @@ body {
         transform-origin: center center;
     }
 
-    /* Keep button style/size as main (menu-button style), only positioning remains fixed */
+    /* Keep button style/size as main (menu-button style), move a bit up to image lower edge */
     .invitation-back {
-        bottom: max(0.45rem, env(safe-area-inset-bottom));
+        bottom: max(1.1rem, calc(env(safe-area-inset-bottom) + 0.75rem));
         width: auto;
         max-width: 250px;
     }
