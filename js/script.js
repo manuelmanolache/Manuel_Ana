@@ -39,6 +39,15 @@ function initializeSplashScreen() {
         splashScreen.classList.add('image-failed');
     }
 
+    function handleSplashActivation(event) {
+        if (event.type === 'click' || event.key === 'Enter' || event.key === ' ') {
+            if (event.type === 'keydown') {
+                event.preventDefault();
+            }
+            enterWebsite();
+        }
+    }
+
     splashImage.addEventListener('load', function() {
         if (splashImage.naturalWidth > 0) {
             splashScreen.classList.remove('image-failed');
@@ -59,13 +68,8 @@ function initializeSplashScreen() {
         showFallbackState();
     }
 
-    splashScreen.addEventListener('click', enterWebsite);
-    splashScreen.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            enterWebsite();
-        }
-    });
+    splashScreen.addEventListener('click', handleSplashActivation);
+    splashScreen.addEventListener('keydown', handleSplashActivation);
 }
 
 function enterWebsite() {
