@@ -10,9 +10,10 @@ function initializeSplashScreen() {
     const splashScreen = document.getElementById('splashScreen');
     const splashImage = document.getElementById('splash-photo');
     const mainContent = document.getElementById('mainContent');
-    const fallbackImages = ['images/invitation.jpg', 'images/couple.jpg'];
+    const fallbackImages = ['images/invitation.png', 'images/invitation.jpg', 'images/couple.jpg'];
     let fallbackIndex = 0;
-    const shouldOpenMainPage = new URLSearchParams(window.location.search).get('view') === 'main';
+    const currentView = new URLSearchParams(window.location.search).get('view');
+    const shouldOpenMainPage = currentView === 'main';
 
     if (!mainContent) {
         return;
