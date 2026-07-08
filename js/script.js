@@ -9,12 +9,25 @@ function isInViewport(sectionRect) {
 function initializeSplashScreen() {
     const splashScreen = document.getElementById('splashScreen');
     const splashImage = document.getElementById('splash-photo');
-    const enterButton = document.getElementById('enterButton');
     const mainContent = document.getElementById('mainContent');
     const fallbackImages = ['images/invitation.jpg', 'images/couple.jpg'];
     let fallbackIndex = 0;
+    const shouldOpenMainPage = new URLSearchParams(window.location.search).get('view') === 'main';
 
-    if (!splashScreen || !splashImage || !mainContent) {
+    if (!mainContent) {
+        return;
+    }
+
+    if (shouldOpenMainPage) {
+        if (splashScreen) {
+            splashScreen.classList.add('hidden');
+            splashScreen.classList.remove('active');
+        }
+        mainContent.classList.remove('hidden');
+        return;
+    }
+
+    if (!splashScreen || !splashImage) {
         return;
     }
 
@@ -24,6 +37,19 @@ function initializeSplashScreen() {
 
     function showFallbackState() {
         splashScreen.classList.add('image-failed');
+    }
+
+    function handleSplashActivation(event) {
+        if (event.type === 'keydown' && event.target !== event.currentTarget) {
+            return;
+        }
+
+        if (event.type === 'click' || event.key === 'Enter' || event.key === ' ') {
+            if (event.type === 'keydown') {
+                event.preventDefault();
+            }
+            enterWebsite();
+        }
     }
 
     splashImage.addEventListener('load', function() {
@@ -46,15 +72,8 @@ function initializeSplashScreen() {
         showFallbackState();
     }
 
-    if (enterButton) {
-        enterButton.addEventListener('click', enterWebsite);
-        enterButton.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                enterWebsite();
-            }
-        });
-    }
+    splashScreen.addEventListener('click', handleSplashActivation);
+    splashScreen.addEventListener('keydown', handleSplashActivation);
 }
 
 function enterWebsite() {
@@ -86,17 +105,6 @@ function enterWebsite() {
         });
     });
 }
-
-// Allow Enter key to proceed from splash screen
-document.addEventListener('keydown', function(event) {
-    const splashScreen = document.getElementById('splashScreen');
-    if (splashScreen && splashScreen.classList.contains('active')) {
-        if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            enterWebsite();
-        }
-    }
-});
 
 // ============================================
 // RSVP Form Handling
