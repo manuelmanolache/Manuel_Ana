@@ -408,16 +408,16 @@ body {
         transform-origin: center center;
     }
 
-    /* Keep button style/size as main (menu-button style), move down by ~50% of button size */
+    /* Keep button style/size as main (menu-button style), moved 15% up from previous position */
     .invitation-back {
         bottom: max(0.55rem, calc(env(safe-area-inset-bottom) + 0.2rem));
         width: auto;
         max-width: 250px;
-        transform: translateY(50%);
+        transform: translateY(35%);
     }
 
     .invitation-back:hover {
-        transform: translateY(calc(50% - 2px));
+        transform: translateY(calc(35% - 2px));
     }
 
     @supports (height: 100svh) {
