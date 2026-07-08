@@ -18,6 +18,7 @@
     --border-radius: 10px;
     --transition: all 0.3s ease;
     --mobile-photo-max-height: 58vh;
+    --main-menu-mobile-btn-max-width: 44vw;
 }
 
 html,
@@ -144,6 +145,7 @@ body {
     font-size: 0.88rem;
     background: rgba(var(--invitation-green-rgb), 0.2);
     border: 1px solid rgba(255, 255, 255, 0.7);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
 }
 
 .main-menu .menu-button:nth-child(1) {
@@ -283,7 +285,7 @@ body {
     }
 
     .main-menu .menu-button {
-        max-width: 44vw;
+        max-width: var(--main-menu-mobile-btn-max-width);
         padding: 0.45rem 0.55rem;
         min-height: 34px;
         font-size: 0.8rem;
