@@ -13,10 +13,12 @@
     --primary-color-dark: #7f624e;
     --secondary-color: #e6d2bf;
     --invitation-green: #155724;
+    --invitation-green-rgb: 21, 87, 36;
     --text-color: #333;
     --border-radius: 10px;
     --transition: all 0.3s ease;
     --mobile-photo-max-height: 58vh;
+    --main-menu-mobile-btn-max-width: 44vw;
 }
 
 html,
@@ -49,9 +51,7 @@ body {
     min-height: 100vh;
     min-height: 100svh;
     display: none;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(1rem, 4vw, 2rem);
+    overflow: hidden;
 }
 
 .splash-screen.active {
@@ -59,20 +59,40 @@ body {
 }
 
 .splash-content {
-    width: min(100%, 540px);
+    width: 100%;
+    height: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    justify-content: flex-end;
+    padding-bottom: 2.5rem;
 }
 
 .splash-photo {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    max-height: 72vh;
-    object-fit: contain;
-    border-radius: calc(var(--border-radius) * 1.5);
-    box-shadow: 0 16px 32px rgba(61, 40, 19, 0.15);
-    background: rgba(255, 255, 255, 0.78);
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.enter-button {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    flex: 0 1 auto;
+}
+
+.enter-button:hover {
+    background: rgba(255, 255, 255, 0.15);
 }
 
 /* ============================================
@@ -82,33 +102,83 @@ body {
 .main-page {
     min-height: 100vh;
     min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: clamp(0.75rem, 3vw, 1.5rem);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
 }
 
 .main-photo-section {
-    width: min(100%, 820px);
-    display: flex;
-    justify-content: center;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .main-photo {
     width: 100%;
-    max-height: min(68vh, 760px);
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     object-position: center;
 }
 
 .main-menu {
-    width: min(100%, 820px);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(0.75rem, 3vh, 1.75rem);
+    z-index: 1;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    column-gap: clamp(0.75rem, 3vw, 1.5rem);
+    row-gap: 0.5rem;
+    padding-inline: clamp(0.75rem, 4vw, 1.5rem);
+}
+
+.main-menu::before {
+    content: "";
+    position: absolute;
+    inset: -1.25rem 0 -1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0));
+    z-index: -1;
+}
+
+.main-menu .menu-button {
+    min-width: 0;
+    max-width: 210px;
+    width: 100%;
+    flex: 0 0 auto;
+    padding: 0.5rem 0.7rem;
+    min-height: 38px;
+    font-size: 0.88rem;
+    background: rgba(var(--invitation-green-rgb), 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+}
+
+.main-menu .menu-button:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+}
+
+.main-menu .menu-button:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+}
+
+.main-menu .menu-button:nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+}
+
+.main-menu .menu-button:nth-child(4) {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
 }
 
 .menu-button,
@@ -142,12 +212,6 @@ body {
     flex: 1 1 180px;
     max-width: 250px;
 }
-
-.enter-button {
-    width: min(100%, 220px);
-    flex: 0 1 auto;
-}
-
 /* ============================================
    Shared sub-pages style
    ============================================ */
@@ -225,12 +289,15 @@ body {
         padding-inline: 0.75rem;
     }
 
-    .main-photo {
-        max-height: var(--mobile-photo-max-height);
+    .main-page {
+        padding-inline: 0;
     }
 
-    .menu-button {
-        min-width: calc(50% - 0.375rem);
+    .main-menu .menu-button {
+        max-width: var(--main-menu-mobile-btn-max-width);
+        padding: 0.45rem 0.55rem;
+        min-height: 34px;
+        font-size: 0.8rem;
     }
 }
 
