@@ -48,6 +48,12 @@ function initializeSplashScreen() {
 
     if (enterButton) {
         enterButton.addEventListener('click', enterWebsite);
+        enterButton.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                enterWebsite();
+            }
+        });
     }
 }
 
