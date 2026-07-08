@@ -127,12 +127,21 @@ body {
     right: 0;
     bottom: clamp(0.75rem, 3vh, 1.75rem);
     z-index: 1;
+    isolation: isolate;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
     column-gap: clamp(0.75rem, 3vw, 1.5rem);
     row-gap: 0.5rem;
     padding-inline: clamp(0.75rem, 4vw, 1.5rem);
+}
+
+.main-menu::before {
+    content: "";
+    position: absolute;
+    inset: -1.25rem 0 -1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0));
+    z-index: -1;
 }
 
 .main-menu .menu-button {
