@@ -7,9 +7,16 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <main class="main-page">
+    <section id="splashScreen" class="splash-screen active" aria-label="Intro">
+        <div class="splash-content">
+            <img id="splash-photo" src="images/intro.jpg" alt="Invitatie" class="splash-photo" loading="eager" fetchpriority="high">
+            <button id="enterButton" type="button" class="menu-button enter-button">Intră</button>
+        </div>
+    </section>
+
+    <main id="mainContent" class="main-page hidden">
         <section class="main-photo-section">
-            <img src="images/couple.jpg" alt="Main Photo" class="main-photo" loading="eager" fetchpriority="high">
+            <img src="images/couple.jpg" alt="Fotografia principală" class="main-photo" loading="eager" fetchpriority="high">
         </section>
 
         <nav class="main-menu" aria-label="Meniu principal">
@@ -19,5 +26,7 @@
             <a class="menu-button" href="preferinte.html">Preferinte</a>
         </nav>
     </main>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
