@@ -9,12 +9,18 @@ function isInViewport(sectionRect) {
 function initializeSplashScreen() {
     const splashScreen = document.getElementById('splashScreen');
     const splashImage = document.getElementById('splash-photo');
+    const enterButton = document.getElementById('enterButton');
+    const mainContent = document.getElementById('mainContent');
     const fallbackImages = ['images/invitation.jpg', 'images/couple.jpg'];
     let fallbackIndex = 0;
 
-    if (!splashScreen || !splashImage) {
+    if (!splashScreen || !splashImage || !mainContent) {
         return;
     }
+
+    splashScreen.classList.add('active');
+    splashScreen.classList.remove('hidden');
+    mainContent.classList.add('hidden');
 
     function showFallbackState() {
         splashScreen.classList.add('image-failed');
@@ -39,11 +45,25 @@ function initializeSplashScreen() {
     if (splashImage.complete && splashImage.naturalWidth === 0) {
         showFallbackState();
     }
+
+    if (enterButton) {
+        enterButton.addEventListener('click', enterWebsite);
+        enterButton.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                enterWebsite();
+            }
+        });
+    }
 }
 
 function enterWebsite() {
     const splashScreen = document.getElementById('splashScreen');
     const mainContent = document.getElementById('mainContent');
+
+    if (!splashScreen || !mainContent) {
+        return;
+    }
     
     // Add animation classes
     splashScreen.classList.add('hidden');
