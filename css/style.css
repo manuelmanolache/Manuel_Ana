@@ -73,7 +73,7 @@ body {
 
 .splash-content {
     width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -233,7 +233,6 @@ body {
 
 @supports (min-height: 100svh) {
     .splash-screen,
-    .splash-content,
     .main-page,
     .sub-page {
         min-height: 100svh;

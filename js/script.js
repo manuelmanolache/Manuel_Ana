@@ -40,6 +40,10 @@ function initializeSplashScreen() {
     }
 
     function handleSplashActivation(event) {
+        if (event.type === 'keydown' && event.target !== event.currentTarget) {
+            return;
+        }
+
         if (event.type === 'click' || event.key === 'Enter' || event.key === ' ') {
             if (event.type === 'keydown') {
                 event.preventDefault();
