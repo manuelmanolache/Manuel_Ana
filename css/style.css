@@ -269,6 +269,10 @@ body {
     .invitation-page {
         min-height: 100svh;
     }
+
+    .invitation-full-image {
+        height: 100svh;
+    }
 }
 
 .placeholder-text {
@@ -334,6 +338,31 @@ body {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
 }
 
+/* Desktop landscape fit for Intro, Main, Invitation sections */
+@media (min-width: 1024px) and (orientation: landscape) {
+    .main-menu {
+        bottom: clamp(0.5rem, 2vh, 1rem);
+        row-gap: 0.35rem;
+        column-gap: clamp(0.6rem, 2vw, 1.1rem);
+    }
+
+    .main-menu .menu-button {
+        max-width: 190px;
+        padding: 0.4rem 0.6rem;
+        min-height: 34px;
+        font-size: 0.8rem;
+    }
+
+    .enter-text {
+        font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+        margin-bottom: 0.5rem;
+    }
+
+    .invitation-back {
+        bottom: clamp(0.5rem, 1.8vh, 0.9rem);
+    }
+}
+
 @media (max-width: 640px) {
     .main-page,
     .sub-page {
@@ -357,11 +386,48 @@ body {
         min-height: 34px;
         font-size: 0.8rem;
     }
+
+    /* Mobile-only invitation adaption to better fit one screen */
+    .invitation-page {
+        min-height: 100vh;
+        align-items: center;
+    }
+
+    .invitation-full-image {
+        width: 100%;
+        height: 100vh;
+        object-fit: contain;
+        object-position: center top;
+    }
+
+    .invitation-back {
+        bottom: max(0.45rem, env(safe-area-inset-bottom));
+        width: min(45vw, 180px);
+        max-width: 180px;
+        padding: 0.4rem 0.55rem;
+        min-height: 32px;
+        font-size: 0.78rem;
+    }
+
+    @supports (height: 100svh) {
+        .invitation-page {
+            min-height: 100svh;
+        }
+
+        .invitation-full-image {
+            height: 100svh;
+        }
+    }
 }
 
 @media (max-width: 420px) {
     .menu-button {
         min-width: 100%;
         max-width: none;
+    }
+
+    .invitation-back {
+        width: min(56vw, 170px);
+        font-size: 0.75rem;
     }
 }
