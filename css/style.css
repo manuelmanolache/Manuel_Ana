@@ -16,6 +16,7 @@
     --text-color: #333;
     --border-radius: 10px;
     --transition: all 0.3s ease;
+    --mobile-photo-max-height: 58vh;
 }
 
 html,
@@ -225,7 +226,7 @@ body {
     }
 
     .main-photo {
-        max-height: 58vh;
+        max-height: var(--mobile-photo-max-height);
     }
 
     .menu-button {
