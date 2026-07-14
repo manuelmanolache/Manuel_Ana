@@ -6,17 +6,16 @@
   <title>Confirmare participare</title>
   <style>
     :root {
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --text: #222;
+      --card-bg: rgba(255, 255, 255, 0.18); /* mai transparent */
+      --text: #fff;
       --accent: #b78a4a;
       --accent-dark: #9f743b;
       --danger: #b84b4b;
       --danger-dark: #983d3d;
+      --stroke: rgba(255, 255, 255, 0.35);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -33,46 +32,53 @@
       width: 100%;
       max-width: 560px;
       background: var(--card-bg);
+      border: 1px solid var(--stroke);
       border-radius: 16px;
       padding: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-      backdrop-filter: blur(2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(4px);
     }
 
     h1 {
       margin: 0 0 16px;
       font-size: 28px;
       text-align: center;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
     }
 
-    .field {
-      margin-bottom: 14px;
-    }
+    .field { margin-bottom: 14px; }
 
     label {
       display: block;
       font-weight: 600;
       margin-bottom: 6px;
+      color: #fff;
     }
 
     input[type="text"],
     input[type="number"] {
       width: 100%;
-      border: 1px solid #ccc;
+      border: 1px solid var(--stroke);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
       border-radius: 10px;
       padding: 10px 12px;
       font-size: 15px;
       outline: none;
     }
 
+    input::placeholder { color: rgba(255,255,255,0.75); }
+
     input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(183, 138, 74, 0.2);
+      box-shadow: 0 0 0 3px rgba(183, 138, 74, 0.25);
     }
 
     .section-title {
       font-weight: 700;
       margin: 18px 0 8px;
+      color: #fff;
     }
 
     .radio-group {
@@ -85,10 +91,11 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid #ddd;
+      background: transparent;     /* transparent, fără alb */
+      border: 1px solid var(--stroke);
       border-radius: 10px;
       padding: 10px 12px;
+      color: #fff;
     }
 
     .actions {
@@ -109,33 +116,25 @@
       transition: transform 0.04s ease, opacity 0.2s ease, background 0.2s ease;
     }
 
-    button:active {
-      transform: translateY(1px);
-    }
+    button:active { transform: translateY(1px); }
 
-    .btn-yes {
-      background: var(--accent);
-    }
-    .btn-yes:hover {
-      background: var(--accent-dark);
-    }
+    .btn-yes { background: var(--accent); }
+    .btn-yes:hover { background: var(--accent-dark); }
 
-    .btn-no {
-      background: var(--danger);
-    }
-    .btn-no:hover {
-      background: var(--danger-dark);
-    }
+    .btn-no { background: var(--danger); }
+    .btn-no:hover { background: var(--danger-dark); }
 
     .status {
       margin-top: 14px;
       font-size: 14px;
       min-height: 20px;
       font-weight: 600;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.35);
     }
 
-    .ok { color: #1e7e34; }
-    .err { color: #b00020; }
+    .ok { color: #b9ffcb; }
+    .err { color: #ffd2d8; }
   </style>
 </head>
 <body>
@@ -158,15 +157,11 @@
         <input type="radio" name="persoane" value="Vin însoțit(ă)" />
         <span>Vin însoțit(ă)</span>
       </label>
-
-      <label class="radio-item">
-        <input type="radio" name="persoane" value="Meniu copii" />
-        <span>Meniu copii</span>
-      </label>
     </div>
 
+    <!-- MENIU COPII SEPARAT -->
     <div class="field">
-      <label for="nrCopii">Meniu copii – număr copii</label>
+      <label for="nrCopii">Meniu copii (număr copii)</label>
       <input id="nrCopii" type="number" min="0" step="1" placeholder="Ex: 2" />
     </div>
 
@@ -179,8 +174,8 @@
   </div>
 
   <script>
-    // Pune URL-ul tău real de Web App (trebuie să se termine în /exec)
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycb....../exec";
+    // IMPORTANT: Pune URL-ul REAL de Web App (Deploy -> Web app -> /exec)
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfXKi3MvFIPITCV8fqwkEYzRUbwsl7Vrkm4wU240qjbM_BReL4-v36DXl5avVTZOu3/exec";
 
     const numeEl = document.getElementById("nume");
     const nrCopiiEl = document.getElementById("nrCopii");
@@ -198,26 +193,55 @@
       statusEl.className = "status " + (ok ? "ok" : "err");
     }
 
+    async function postJSON(payload) {
+      // Încercare normală (cu răspuns JSON)
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const raw = await res.text();
+      let data = {};
+      try { data = JSON.parse(raw); } catch (_) { data = { success: false, message: raw }; }
+
+      if (!data.success) {
+        throw new Error(data.message || "Eroare la salvare.");
+      }
+      return data;
+    }
+
+    async function postNoCorsFallback(payload) {
+      // Fallback pentru unele probleme CORS; nu putem citi răspunsul
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+      return { success: true };
+    }
+
     async function sendResponse(raspuns) {
       const nume = numeEl.value.trim();
       const persoane = getPersoaneValue();
-      const nrCopii = nrCopiiEl.value ? Number(nrCopiiEl.value) : 0;
+      const nrCopii = nrCopiiEl.value ? Number(nrCopiiEl.value) : "";
 
       if (!nume) {
         setStatus("Te rog completează numele și prenumele.", false);
         return;
       }
 
-      if (persoane === "Meniu copii" && (isNaN(nrCopii) || nrCopii < 0)) {
+      if (nrCopii !== "" && (isNaN(nrCopii) || nrCopii < 0)) {
         setStatus("Te rog completează corect numărul de copii.", false);
         return;
       }
 
       const payload = {
         numePrenume: nume,
-        raspuns: raspuns, // Confirm / Nu pot ajunge
-        numarPersoane: persoane, // Vin singur / Vin însoțit(ă) / Meniu copii
-        meniuCopii: persoane === "Meniu copii" ? nrCopii : ""
+        raspuns: raspuns,               // Confirm / Nu pot ajunge
+        numarPersoane: persoane,        // Vin singur / Vin însoțit(ă)
+        meniuCopii: nrCopii === "" ? "" : nrCopii // separat
       };
 
       try {
@@ -225,25 +249,15 @@
         btnRefuz.disabled = true;
         setStatus("Se salvează...");
 
-        const res = await fetch(APPS_SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        const raw = await res.text();
-        let data = {};
         try {
-          data = JSON.parse(raw);
-        } catch (_) {
-          throw new Error("Răspuns invalid de la server: " + raw);
+          await postJSON(payload);
+          setStatus("Răspunsul a fost înregistrat cu succes.");
+        } catch (err) {
+          // fallback când apare Failed to fetch / CORS
+          await postNoCorsFallback(payload);
+          setStatus("Trimitere efectuată. Verifică în Google Sheet dacă s-a salvat.");
         }
 
-        if (!data.success) {
-          throw new Error(data.message || "Eroare la salvare.");
-        }
-
-        setStatus("Răspunsul a fost înregistrat cu succes.");
         numeEl.value = "";
         nrCopiiEl.value = "";
         document.querySelector('input[name="persoane"][value="Vin singur"]').checked = true;
