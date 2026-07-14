@@ -6,13 +6,12 @@
   <title>Confirmare participare</title>
   <style>
     :root {
-      --card-bg: rgba(255, 255, 255, 0.18); /* mai transparent */
-      --text: #fff;
+      --text: #ffffff;
       --accent: #b78a4a;
       --accent-dark: #9f743b;
       --danger: #b84b4b;
       --danger-dark: #983d3d;
-      --stroke: rgba(255, 255, 255, 0.35);
+      --stroke: rgba(255, 255, 255, 0.55);
     }
 
     * { box-sizing: border-box; }
@@ -28,15 +27,16 @@
       padding: 24px;
     }
 
+    /* CARD COMPLET TRANSPARENT */
     .card {
       width: 100%;
       max-width: 560px;
-      background: var(--card-bg);
+      background: transparent;
       border: 1px solid var(--stroke);
       border-radius: 16px;
       padding: 24px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(4px);
+      backdrop-filter: none;
     }
 
     h1 {
@@ -44,31 +44,33 @@
       font-size: 28px;
       text-align: center;
       color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
     .field { margin-bottom: 14px; }
 
     label {
       display: block;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 6px;
       color: #fff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.45);
     }
 
+    /* INPUTURI OPACE (NU TRANSPARENTE) */
     input[type="text"],
     input[type="number"] {
       width: 100%;
-      border: 1px solid var(--stroke);
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
+      border: 1px solid #cfcfcf;
+      background: #ffffff;
+      color: #222;
       border-radius: 10px;
       padding: 10px 12px;
       font-size: 15px;
       outline: none;
     }
 
-    input::placeholder { color: rgba(255,255,255,0.75); }
+    input::placeholder { color: #777; }
 
     input:focus {
       border-color: var(--accent);
@@ -79,6 +81,7 @@
       font-weight: 700;
       margin: 18px 0 8px;
       color: #fff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.45);
     }
 
     .radio-group {
@@ -87,15 +90,16 @@
       margin-bottom: 10px;
     }
 
+    /* SELECTII OPACE (NU TRANSPARENTE) */
     .radio-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: transparent;     /* transparent, fără alb */
-      border: 1px solid var(--stroke);
+      background: #ffffff;
+      border: 1px solid #d9d9d9;
       border-radius: 10px;
       padding: 10px 12px;
-      color: #fff;
+      color: #222;
     }
 
     .actions {
@@ -128,13 +132,13 @@
       margin-top: 14px;
       font-size: 14px;
       min-height: 20px;
-      font-weight: 600;
+      font-weight: 700;
       color: #fff;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.45);
     }
 
-    .ok { color: #b9ffcb; }
-    .err { color: #ffd2d8; }
+    .ok { color: #d7ffe2; }
+    .err { color: #ffd9df; }
   </style>
 </head>
 <body>
@@ -159,7 +163,6 @@
       </label>
     </div>
 
-    <!-- MENIU COPII SEPARAT -->
     <div class="field">
       <label for="nrCopii">Meniu copii (număr copii)</label>
       <input id="nrCopii" type="number" min="0" step="1" placeholder="Ex: 2" />
@@ -174,8 +177,7 @@
   </div>
 
   <script>
-    // IMPORTANT: Pune URL-ul REAL de Web App (Deploy -> Web app -> /exec)
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfXKi3MvFIPITCV8fqwkEYzRUbwsl7Vrkm4wU240qjbM_BReL4-v36DXl5avVTZOu3/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycb....../exec";
 
     const numeEl = document.getElementById("nume");
     const nrCopiiEl = document.getElementById("nrCopii");
@@ -193,76 +195,56 @@
       statusEl.className = "status " + (ok ? "ok" : "err");
     }
 
-    async function postJSON(payload) {
-      // Încercare normală (cu răspuns JSON)
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      const raw = await res.text();
-      let data = {};
-      try { data = JSON.parse(raw); } catch (_) { data = { success: false, message: raw }; }
-
-      if (!data.success) {
-        throw new Error(data.message || "Eroare la salvare.");
-      }
-      return data;
-    }
-
-    async function postNoCorsFallback(payload) {
-      // Fallback pentru unele probleme CORS; nu putem citi răspunsul
-      await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload)
-      });
-      return { success: true };
-    }
-
     async function sendResponse(raspuns) {
       const nume = numeEl.value.trim();
       const persoane = getPersoaneValue();
       const nrCopii = nrCopiiEl.value ? Number(nrCopiiEl.value) : "";
 
       if (!nume) {
-        setStatus("Te rog completează numele și prenumele.", false);
+        setStatus("Trimitere eșuată, contactați direct prin telefon la numerele din invitație", false);
         return;
       }
 
       if (nrCopii !== "" && (isNaN(nrCopii) || nrCopii < 0)) {
-        setStatus("Te rog completează corect numărul de copii.", false);
+        setStatus("Trimitere eșuată, contactați direct prin telefon la numerele din invitație", false);
         return;
       }
 
       const payload = {
         numePrenume: nume,
-        raspuns: raspuns,               // Confirm / Nu pot ajunge
-        numarPersoane: persoane,        // Vin singur / Vin însoțit(ă)
-        meniuCopii: nrCopii === "" ? "" : nrCopii // separat
+        raspuns: raspuns,
+        numarPersoane: persoane,
+        meniuCopii: nrCopii === "" ? "" : nrCopii
       };
 
       try {
         btnConfirm.disabled = true;
         btnRefuz.disabled = true;
-        setStatus("Se salvează...");
 
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const raw = await res.text();
+        let data = {};
         try {
-          await postJSON(payload);
-          setStatus("Răspunsul a fost înregistrat cu succes.");
-        } catch (err) {
-          // fallback când apare Failed to fetch / CORS
-          await postNoCorsFallback(payload);
-          setStatus("Trimitere efectuată. Verifică în Google Sheet dacă s-a salvat.");
+          data = JSON.parse(raw);
+        } catch (_) {
+          data = { success: false };
         }
 
+        if (!data.success) {
+          throw new Error("save_failed");
+        }
+
+        setStatus("Trimitere efectuată", true);
         numeEl.value = "";
         nrCopiiEl.value = "";
         document.querySelector('input[name="persoane"][value="Vin singur"]').checked = true;
       } catch (err) {
-        setStatus("A apărut o eroare: " + err.message, false);
+        setStatus("Trimitere eșuată, contactați direct prin telefon la numerele din invitație", false);
       } finally {
         btnConfirm.disabled = false;
         btnRefuz.disabled = false;
