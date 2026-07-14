@@ -5,61 +5,252 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Confirmare participare</title>
   <style>
+    :root {
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --text: #222;
+      --accent: #b78a4a;
+      --accent-dark: #9f743b;
+      --danger: #b84b4b;
+      --danger-dark: #983d3d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: url("images/photo.jpg") center/cover no-repeat fixed;
+      display: grid;
+      place-items: center;
       padding: 24px;
-      background: #fffaf7;
-      color: #333;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+      backdrop-filter: blur(2px);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 28px;
       text-align: center;
     }
-    h1 { margin-bottom: 12px; }
-    p { margin-bottom: 22px; }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(183, 138, 74, 0.2);
+    }
+
+    .section-title {
+      font-weight: 700;
+      margin: 18px 0 8px;
+    }
+
+    .radio-group {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
 
     .actions {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
     }
 
     button {
       border: none;
       border-radius: 10px;
-      padding: 12px 18px;
-      font-size: 16px;
+      padding: 12px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
+      transition: transform 0.04s ease, opacity 0.2s ease, background 0.2s ease;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .btn-yes {
+      background: var(--accent);
+    }
+    .btn-yes:hover {
+      background: var(--accent-dark);
+    }
+
+    .btn-no {
+      background: var(--danger);
+    }
+    .btn-no:hover {
+      background: var(--danger-dark);
+    }
+
+    .status {
+      margin-top: 14px;
+      font-size: 14px;
+      min-height: 20px;
       font-weight: 600;
     }
 
-    .yes { background: #2e7d32; color: #fff; }
-    .no  { background: #c62828; color: #fff; }
-
-    .hint {
-      margin-top: 16px;
-      font-size: 14px;
-      color: #666;
-    }
+    .ok { color: #1e7e34; }
+    .err { color: #b00020; }
   </style>
 </head>
 <body>
-  <h1>Confirmare participare</h1>
-  <p>Te rugăm să alegi una dintre opțiuni:</p>
+  <div class="card">
+    <h1>Confirmare participare</h1>
 
-  <div class="actions">
-    <button class="yes" onclick="trimiteRaspuns('Da, particip')">Da, particip</button>
-    <button class="no" onclick="trimiteRaspuns('Nu pot participa')">Nu pot participa</button>
+    <div class="field">
+      <label for="nume">Nume și prenume</label>
+      <input id="nume" type="text" placeholder="Ex: Popescu Ana Maria" />
+    </div>
+
+    <div class="section-title">Număr persoane</div>
+    <div class="radio-group">
+      <label class="radio-item">
+        <input type="radio" name="persoane" value="Vin singur" checked />
+        <span>Vin singur</span>
+      </label>
+
+      <label class="radio-item">
+        <input type="radio" name="persoane" value="Vin însoțit(ă)" />
+        <span>Vin însoțit(ă)</span>
+      </label>
+
+      <label class="radio-item">
+        <input type="radio" name="persoane" value="Meniu copii" />
+        <span>Meniu copii</span>
+      </label>
+    </div>
+
+    <div class="field">
+      <label for="nrCopii">Meniu copii – număr copii</label>
+      <input id="nrCopii" type="number" min="0" step="1" placeholder="Ex: 2" />
+    </div>
+
+    <div class="actions">
+      <button class="btn-yes" id="btnConfirm">Confirm</button>
+      <button class="btn-no" id="btnRefuz">Nu pot ajunge</button>
+    </div>
+
+    <div id="status" class="status"></div>
   </div>
 
-  <p class="hint">Se va deschide aplicația ta de email pentru trimiterea răspunsului.</p>
-
   <script>
-    function trimiteRaspuns(raspuns) {
-      const destinatari = "manuelmanolache0@gmail.com,ancutzaana68@gmail.com";
-      const subiect = encodeURIComponent("Confirmare participare");
-      const continut = encodeURIComponent("Răspuns invitat: " + raspuns);
-      window.location.href = `mailto:${destinatari}?subject=${subiect}&body=${continut}`;
+    // 1) Creezi un Google Apps Script Web App si pui URL-ul aici:
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfXKi3MvFIPITCV8fqwkEYzRUbwsl7Vrkm4wU240qjbM_BReL4-v36DXl5avVTZOu3/exec";
+
+    const numeEl = document.getElementById("nume");
+    const nrCopiiEl = document.getElementById("nrCopii");
+    const statusEl = document.getElementById("status");
+    const btnConfirm = document.getElementById("btnConfirm");
+    const btnRefuz = document.getElementById("btnRefuz");
+
+    function getPersoaneValue() {
+      const selected = document.querySelector('input[name="persoane"]:checked');
+      return selected ? selected.value : "";
     }
+
+    function setStatus(msg, ok = true) {
+      statusEl.textContent = msg;
+      statusEl.className = "status " + (ok ? "ok" : "err");
+    }
+
+    async function sendResponse(raspuns) {
+      const nume = numeEl.value.trim();
+      const persoane = getPersoaneValue();
+      const nrCopii = nrCopiiEl.value ? Number(nrCopiiEl.value) : 0;
+
+      if (!nume) {
+        setStatus("Te rog completează numele și prenumele.", false);
+        return;
+      }
+
+      if (persoane === "Meniu copii" && (isNaN(nrCopii) || nrCopii < 0)) {
+        setStatus("Te rog completează corect numărul de copii.", false);
+        return;
+      }
+
+      const payload = {
+        numePrenume: nume,
+        raspuns: raspuns, // Confirm / Nu pot ajunge
+        numarPersoane: persoane, // Vin singur / Vin însoțit(ă) / Meniu copii
+        meniuCopii: persoane === "Meniu copii" ? nrCopii : ""
+      };
+
+      try {
+        btnConfirm.disabled = true;
+        btnRefuz.disabled = true;
+        setStatus("Se salvează...");
+
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.message || "Eroare la salvare.");
+        }
+
+        setStatus("Răspunsul a fost înregistrat cu succes.");
+        numeEl.value = "";
+        nrCopiiEl.value = "";
+        document.querySelector('input[name="persoane"][value="Vin singur"]').checked = true;
+      } catch (err) {
+        setStatus("A apărut o eroare: " + err.message, false);
+      } finally {
+        btnConfirm.disabled = false;
+        btnRefuz.disabled = false;
+      }
+    }
+
+    btnConfirm.addEventListener("click", () => sendResponse("Confirm"));
+    btnRefuz.addEventListener("click", () => sendResponse("Nu pot ajunge"));
   </script>
 </body>
 </html>
