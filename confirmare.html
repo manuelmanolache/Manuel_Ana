@@ -1,32 +1,65 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmare</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirmare participare</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #fffaf7;
+      color: #333;
+      text-align: center;
+    }
+    h1 { margin-bottom: 12px; }
+    p { margin-bottom: 22px; }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .yes { background: #2e7d32; color: #fff; }
+    .no  { background: #c62828; color: #fff; }
+
+    .hint {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
-    <main class="sub-page">
-        <form class="rsvp-form" id="rsvpForm">
-            <div class="form-group">
-                <label for="name">Nume *</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+  <h1>Confirmare participare</h1>
+  <p>Te rugăm să alegi una dintre opțiuni:</p>
 
-            <div class="form-group">
-                <label for="attending">Participi? *</label>
-                <select id="attending" name="attending" required>
-                    <option value="">-- Selecteaza --</option>
-                    <option value="yes">Da, particip</option>
-                    <option value="no">Nu pot participa</option>
-                </select>
-            </div>
+  <div class="actions">
+    <button class="yes" onclick="trimiteRaspuns('Da, particip')">Da, particip</button>
+    <button class="no" onclick="trimiteRaspuns('Nu pot participa')">Nu pot participa</button>
+  </div>
 
-            <button type="submit" class="btn-submit">Trimite</button>
-        </form>
+  <p class="hint">Se va deschide aplicația ta de email pentru trimiterea răspunsului.</p>
 
-        <a class="menu-button back-home" href="index.html?view=main">Înapoi</a>
-    </main>
+  <script>
+    function trimiteRaspuns(raspuns) {
+      const destinatari = "manuelmanolache0@gmail.com,ancutzaana68@gmail.com";
+      const subiect = encodeURIComponent("Confirmare participare");
+      const continut = encodeURIComponent("Răspuns invitat: " + raspuns);
+      window.location.href = `mailto:${destinatari}?subject=${subiect}&body=${continut}`;
+    }
+  </script>
 </body>
 </html>

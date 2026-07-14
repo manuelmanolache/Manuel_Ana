@@ -1,16 +1,62 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Locatie</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Locație</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #fffaf7;
+      color: #333;
+      text-align: center;
+    }
+    h1 { margin-bottom: 12px; }
+    p { margin-bottom: 20px; }
+    .links {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+    }
+    .google { background: #1a73e8; }
+    .waze { background: #33ccff; color: #003344; }
+  </style>
 </head>
 <body>
-    <main class="sub-page">
-        <p class="placeholder-text">Pensiunea Eden, DN15C, 617005 Agapia</p>
+  <h1>Locație</h1>
+  <p>Pensiunea Eden, DN15C, 617005 Agapia</p>
 
-        <a class="menu-button back-home" href="index.html?view=main">Înapoi</a>
-    </main>
+  <div class="links">
+    <!-- Google Maps -->
+    <a
+      class="btn google"
+      href="https://www.google.com/maps/search/?api=1&query=Pensiunea+Eden,+DN15C,+617005+Agapia"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Deschide în Google Maps
+    </a>
+
+    <!-- Waze -->
+    <a
+      class="btn waze"
+      href="https://waze.com/ul?q=Pensiunea%20Eden%2C%20DN15C%2C%20617005%20Agapia&navigate=yes"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Deschide în Waze
+    </a>
+  </div>
 </body>
 </html>
