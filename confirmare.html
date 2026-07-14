@@ -171,16 +171,16 @@
     </div>
 
     <div class="actions">
-      <button class="btn-yes" id="btnConfirm">Confirm</button>
-      <button class="btn-no" id="btnRefuz">Nu pot ajunge</button>
+      <button class="btn-yes" id="btnConfirm" type="button">Confirm</button>
+      <button class="btn-no" id="btnRefuz" type="button">Nu pot ajunge</button>
     </div>
 
     <div id="status" class="status"></div>
   </div>
 
   <script>
-    // 1) Creezi un Google Apps Script Web App si pui URL-ul aici:
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfXKi3MvFIPITCV8fqwkEYzRUbwsl7Vrkm4wU240qjbM_BReL4-v36DXl5avVTZOu3/exec";
+    // Pune URL-ul tău real de Web App (trebuie să se termine în /exec)
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycb....../exec";
 
     const numeEl = document.getElementById("nume");
     const nrCopiiEl = document.getElementById("nrCopii");
@@ -231,9 +231,15 @@
           body: JSON.stringify(payload)
         });
 
-        const data = await res.json();
+        const raw = await res.text();
+        let data = {};
+        try {
+          data = JSON.parse(raw);
+        } catch (_) {
+          throw new Error("Răspuns invalid de la server: " + raw);
+        }
 
-        if (!res.ok || !data.success) {
+        if (!data.success) {
           throw new Error(data.message || "Eroare la salvare.");
         }
 
